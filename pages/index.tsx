@@ -1,21 +1,22 @@
-import React from 'react'
+import {useEffect} from 'react'
 import Layout from '../components/Layout'
 import { useState } from 'react'
 import services from '../services/index';
 import dynamic from 'next/dynamic';
+import { News } from '../interfaces';
 
 const NextListWithLoading = dynamic(
   () => import('../components/NewsList'),
-  { loading: () => <p>Loading</p> }
+  { loading: () => <p>Loading</p> },
 )
 
 const IndexPage = () => {
-  const [params, setParams] = useState(5)
-  const [data, setData] = useState([])
+  const [params, setParams] = useState<number>(5)
+  const [data, setData] = useState<News[]>([])
 
   const loadMore = () => setParams(params + 5)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getData = async () => {
       try {
         const data = await services.getNews(params)
